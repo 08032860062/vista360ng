@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vista360 NG – Marketplace</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="left">
+      <div class="logo">Vista360 NG</div>
+    </div>
+    <nav class="nav-links">
+      <a href="/" class="active">Marketplace</a>
+      <a href="/vlog.html">Vista360 TV</a>
+      <a href="/categories.html">Cities &amp; Categories</a>
+    </nav>
+    <div class="right">
+      <a href="/admin" class="link">Sign in</a>
+      <a href="#" class="btn secondary">List your space</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-text">
+      <h1>Discover Nigerian spaces in 360°</h1>
+      <p>Hotels · Luxury Estates · Event Venues · Land</p>
+      <div class="hero-search">
+        <input id="search" class="search" placeholder="Search Abuja hotels, Maitama, Kado..." />
+        <button id="searchBtn" class="btn">🔍 Search</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <section class="section-header">
+      <h2>Trending Tours</h2>
+      <a href="/vlog.html" class="small-link">See all →</a>
+    </section>
+
+    <div id="grid" class="grid" aria-live="polite"></div>
+
+    <div class="section-spaced">
+      <div class="section-header">
+        <h3>Browse by category</h3>
+      </div>
+      <div id="pills" class="pill-row"></div>
+    </div>
+
+    <div class="section-spaced">
+      <div class="section-header">
+        <h3>Vista360 TV – Latest Episodes</h3>
+        <a href="/vlog.html" class="small-link">See all →</a>
+      </div>
+      <div id="tv-strip" class="grid grid-tv"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    © 2026 Vista360 NG · Abuja, Nigeria · WhatsApp: <span id="footer-wa">+234XXXXXXXXXX</span>
+  </footer>
+
+  <script>
+    // Basic client rendering for home
+    async function loadHome() {
+      const res = await fetch('/api/tours');
+      const list = res.ok ? await res.json() : [];
+
+      const grid = document.getElementById('grid');
+      const pills = document.getElementById('pills');
+      const tv = document.getElementById('tv-strip');
+
+      const cats = new Set();
+
+      function renderCard(t) {
+        const a = document.createElement('a');
+        a.href = '/tour/' + t.id;
+        a.className = 'card tour-card';
+        a.innerHTML = `
+          <div class="thumb">
+            <img loading="lazy" decoding="async" src="${t.thumbnail || '/images/default-thumb.svg'}" alt="${t.title} thumbnail">
+            <span class="badge">360°</span>
+            <span class="price-badge">${t.price || ''}</span>
+          </div>
+          <div class="card-body">
+            <h2>${t.title}</h2>
+            <p class="meta">${t.category || 'Property'} · ${t.city || ''}</p>
+            <div class="stats">👁 ${t.views || '—'} views</div>
+            <div><button class="btn">View 360° Tour</button></div>
+          </div>
+        `;
+        grid.appendChild(a);
+      }
+
+      // Populate grid and categories
+      list.forEach(t => {
+        renderCard(t);
+        if (t.category) cats.add(t.category);
+      });
+
+      // pills
+      Array.from(cats).slice(0, 8).forEach(cat => {
+        const btn = document.createElement('a');
+        btn.href = '/categories.html#' + encodeURIComponent(cat.toLowerCase());
+        btn.className = 'pill';
+        btn.textContent = cat;
+        pills.appendChild(btn);
+      });
+
+      // tv strip - use first 2 tours as placeholders for episodes
+      list.slice(0,2).forEach(t => {
+        const el = document.createElement('article');
+        el.className = 'card tv-card';
+        el.innerHTML = `
+          <div class="thumb thumb-vlog">
+            <img src="/images/vlog1.svg" alt="${t.title}" />
+          </div>
+          <div class="card-body">
+            <h3>${t.title}</h3>
+            <p class="meta">${t.duration || '10:00'} · ${t.category || ''} · ${t.city || ''}</p>
+            <a href="/vlog.html" class="btn">Watch on Vista360 TV</a>
+          </div>
+        `;
+        tv.appendChild(el);
+      });
+
+      // footer wa numeric
+      try {
+        const cfg = await (await fetch('/api/config')).json();
+        document.getElementById('footer-wa').textContent = cfg.whatsapp || '+234XXXXXXXXXX';
+      } catch (e) {}
+
+      // search
+      document.getElementById('searchBtn').addEventListener('click', () => {
+        const q = document.getElementById('search').value.toLowerCase();
+        grid.querySelectorAll('.tour-card').forEach(card => {
+          const txt = card.textContent.toLowerCase();
+          card.style.display = txt.includes(q) ? '' : 'none';
+        });
+      });
+    }
+
+    loadHome();
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vista360 NG – 360° Tours Marketplace</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Top navigation -->
+  <header class="topbar">
+    <div class="logo">Vista360 NG</div>
+    <nav class="nav-links">
+      <a href="/">Marketplace</a>
+      <a href="/vlog.html">Vista360 TV</a>
+      <a href="/categories.html">Cities & Categories</a>
+      <a href="/admin" style="margin-left:12px">Admin</a>
+    </nav>
+  </header>
+
+  <!-- Hero / search -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Discover Nigerian spaces in 360°</h1>
+      <p>Hotels, luxury estates, venues and more – verified virtual walkthroughs before you visit.</p>
+      <div class="hero-search">
+        <input class="search" placeholder="Search e.g. Maitama, Kado, Abuja hotels">
+        <button class="btn">Search</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- Trending grid -->
+    <section>
+      <div class="section-header">
+        <h2>Trending 360° tours</h2>
+        <a href="/categories.html" class="small-link">View all</a>
+      </div>
+      <section id="tour-grid" class="grid"></section>
+    </section>
+
+    <!-- Category shortcuts -->
+    <section class="section-spaced">
+      <div class="section-header">
+        <h2>Browse by category</h2>
+      </div>
+      <div class="pill-row">
+        <a href="/categories.html#hotels" class="pill">🏨 Hotels & Resorts</a>
+        <a href="/categories.html#events" class="pill">🎪 Event Venues</a>
+        <a href="/categories.html#luxury" class="pill">🏰 Luxury Estates</a>
+        <a href="/categories.html#land" class="pill">🌍 Land & Development</a>
+      </div>
+    </section>
+
+    <!-- Vista360 TV teaser -->
+    <section class="section-spaced">
+      <div class="section-header">
+        <h2>Vista360 TV – latest vlogs</h2>
+        <a href="/vlog.html" class="small-link">See all episodes</a>
+      </div>
+      <div class="grid grid-vlog">
+        <article class="card vlog-card">
+          <div class="thumb thumb-vlog">
+            <span class="badge">EP01</span>
+          </div>
+          <div class="card-body">
+            <h3>Inside Maitama Castle – $20M Abuja mansion</h3>
+            <p class="meta">10:24 · Property Spotlight · Abuja</p>
+            <a class="btn secondary" href="/vlog.html">Watch on Vista360 TV</a>
+          </div>
+        </article>
+        <article class="card vlog-card">
+          <div class="thumb thumb-vlog">
+            <span class="badge">EP02</span>
+          </div>
+          <div class="card-body">
+            <h3>Top 5 hotels with 360° tours in Abuja</h3>
+            <p class="meta">8:10 · Hotels · Abuja</p>
+            <a class="btn secondary" href="/vlog.html">Watch now</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Vista360 NG · Abuja, Nigeria</p>
+  </footer>
+
+  <script>
+    // same logic as before – pulls sample tours from backend
+    async function loadTours() {
+      const res = await fetch('/api/tours');
+      const tours = await res.json();
+      const grid = document.getElementById('tour-grid');
+      grid.innerHTML = '';
+
+      tours.forEach(tour => {
+        const card = document.createElement('article');
+        card.className = 'card';
+
+        card.innerHTML = `
+          <div class="thumb">
+            <img src="${tour.thumbnail || '/images/default-thumb.svg'}" alt="${tour.title}" />
+            <div class="badge">360°</div>
+          </div>
+          <div class="card-body">
+            <h3>${tour.title}</h3>
+            <p class="meta">${tour.city} · ${tour.category}</p>
+            <p class="price">${tour.price}</p>
+            <p class="stats">👁 ${tour.views.toLocaleString()} views</p>
+            <a class="btn" href="/tour/${tour.id}">View 360° Tour</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+    loadTours();
+
+    // filtering and search
+    const pills = document.querySelectorAll('.pill');
+    function filterGrid(category) {
+      document.querySelectorAll('#tour-grid .card').forEach(card => {
+        const meta = card.querySelector('.meta').textContent.toLowerCase();
+        card.style.display = (!category || meta.includes(category.toLowerCase())) ? '' : 'none';
+      });
+    }
+
+    pills.forEach(p => p.addEventListener('click', (e) => {
+      e.preventDefault();
+      const cat = p.textContent.replace(/\s+/g, ' ');
+      filterGrid(cat);
+    }));
+
+    const searchInput = document.querySelector('.hero-search .search');
+    document.querySelector('.hero-search .btn').addEventListener('click', () => {
+      const q = (searchInput.value || '').toLowerCase();
+      document.querySelectorAll('#tour-grid .card').forEach(card => {
+        const txt = (card.textContent || '').toLowerCase();
+        card.style.display = txt.includes(q) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

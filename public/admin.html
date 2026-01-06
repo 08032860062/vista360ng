@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Vista360 NG – Admin</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .form { background:#fff;padding:16px;border-radius:8px;margin-bottom:12px }
+    label { display:block;margin:8px 0 4px;font-weight:600 }
+    input, textarea { width:100%;padding:8px;border:1px solid #ddd;border-radius:6px }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo">Vista360 NG — Admin</div>
+    <a href="/" class="link">← Marketplace</a>
+  </header>
+
+  <main class="container">
+    <h1>Admin — Add Tour</h1>
+
+    <div class="form" id="loginForm">
+      <label>Admin Login</label>
+      <input id="loginPassword" type="password" placeholder="admin password (default: devpass)" />
+      <button id="loginBtn" class="btn">Login</button>
+      <button id="logoutBtn" class="btn" style="background:#fff;color:#0f74ff;border:1px solid #0f74ff;margin-left:8px">Logout</button>
+      <div id="loginMsg" style="margin-top:8px"></div>
+    </div>
+
+    <div class="form" id="addForm">
+      <label>Admin Key (optional — header auth instead of login cookie)</label>
+      <input id="adminKey" placeholder="enter admin key (optional)" />
+
+      <label>Tour ID (slug, e.g. maitama-castle)</label>
+      <input id="id" />
+
+      <label>Title</label>
+      <input id="title" />
+
+      <label>City</label>
+      <input id="city" />
+
+      <label>Category</label>
+      <input id="category" />
+
+      <label>Price</label>
+      <input id="price" />
+
+      <label>Views</label>
+      <input id="views" type="number" />
+
+      <label>Kuula URL</label>
+      <input id="kuulaUrl" />
+
+      <button id="addBtn" class="btn">Add Tour</button>
+      <div id="msg" style="margin-top:8px"></div>
+    </div>
+
+    <h2>Update WhatsApp contact</h2>
+    <div class="form">
+      <label>Admin Key</label>
+      <input id="adminKey2" placeholder="enter admin key" />
+
+      <label>WhatsApp number (international, e.g. 2348012345678)</label>
+      <input id="whatsapp" />
+      <button id="saveContact" class="btn">Save Contact</button>
+      <div id="contactMsg" style="margin-top:8px"></div>
+    </div>
+
+    <section>
+      <h2>Existing tours</h2>
+      <div id="existing"></div>
+    </section>
+
+    <section>
+      <h2>Admin Users</h2>
+      <div class="form">
+        <label>Username</label>
+        <input id="newUser" placeholder="username (e.g. admin)" />
+        <label>Password</label>
+        <input id="newPass" type="password" placeholder="new password" />
+        <button id="createUser" class="btn">Create / Update User</button>
+        <div id="userMsg" style="margin-top:8px"></div>
+      </div>
+      <div id="userList"></div>
+    </section>
+  </main>
+
+  <script>
+    async function loadTours() {
+      const res = await fetch('/api/tours');
+      const tours = await res.json();
+      const div = document.getElementById('existing');
+      div.innerHTML = tours.map(t => `<div class="card" style="padding:12px;margin-bottom:8px"><strong>${t.id}</strong> — ${t.title} (<a href="/tour/${t.id}">view</a>)</div>`).join('');
+    }
+
+    document.getElementById('addBtn').addEventListener('click', async () => {
+      const adminKey = document.getElementById('adminKey').value;
+      const body = {
+        id: document.getElementById('id').value.trim(),
+        title: document.getElementById('title').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        category: document.getElementById('category').value.trim(),
+        price: document.getElementById('price').value.trim(),
+        views: Number(document.getElementById('views').value) || 0,
+        kuulaUrl: document.getElementById('kuulaUrl').value.trim()
+      };
+
+      const res = await fetch('/api/tours', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+        credentials: 'same-origin',
+        body: JSON.stringify(body)
+      });
+      const r = await res.json();
+      document.getElementById('msg').textContent = r.error || 'Added: ' + (r.tour && r.tour.id);
+      loadTours();
+    });
+
+    document.getElementById('saveContact').addEventListener('click', async () => {
+      const adminKey = document.getElementById('adminKey2').value;
+      const whatsapp = document.getElementById('whatsapp').value.trim();
+      const res = await fetch('/api/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+        credentials: 'same-origin',
+        body: JSON.stringify({ whatsapp })
+      });
+      const r = await res.json();
+      document.getElementById('contactMsg').textContent = r.error ? ('Error: ' + r.error) : 'Saved: ' + r.config.whatsapp;
+    });
+
+    document.getElementById('createUser').addEventListener('click', async () => {
+      const username = document.getElementById('newUser').value.trim();
+      const password = document.getElementById('newPass').value;
+      const res = await fetch('/admin/users', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ username, password })
+      });
+      const r = await res.json();
+      document.getElementById('userMsg').textContent = r.error ? ('Error: ' + r.error) : ('Saved: ' + r.username);
+      loadUsers();
+    });
+
+    async function loadUsers() {
+      try {
+        const res = await fetch('/admin/users', { credentials: 'same-origin' });
+        if (!res.ok) return;
+        const list = await res.json();
+        document.getElementById('userList').innerHTML = list.map(u => `<div class="card" style="padding:8px;margin-bottom:6px">${u}</div>`).join('');
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    loadUsers();
+
+    // login/logout
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const pwd = document.getElementById('loginPassword').value;
+      const res = await fetch('/admin/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ password: pwd })
+      });
+      const r = await res.json();
+      document.getElementById('loginMsg').textContent = r.error || 'Logged in';
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      const res = await fetch('/admin/logout', { method: 'POST', credentials: 'same-origin' });
+      const r = await res.json();
+      document.getElementById('loginMsg').textContent = r.error || 'Logged out';
+    });
+
+    loadTours();
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "msjsdiag.debugger-for-chrome",
+    "formulahendry.auto-close-tag",
+    "angular.ng-template",
+    "ms-vscode.vscode-typescript-next"
+  ]
+}
