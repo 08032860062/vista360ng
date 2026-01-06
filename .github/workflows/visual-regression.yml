@@ -26,10 +26,10 @@ jobs:
         run: npm test --silent
 
       - name: Upload visual artifacts
-        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: visual-artifacts
           path: |
             artwork
             __tests__/baseline
+            artwork/homepage-mockup.png
