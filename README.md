@@ -58,7 +58,24 @@ An auto-generated PNG mockup of the homepage is available at `artwork/homepage-m
 
 ## Visual regression CI
 
-This repository includes a visual regression test that captures the homepage at desktop, tablet, and mobile sizes using Puppeteer and compares images with pixelmatch. Baseline images are stored in `__tests__/baseline/` and are checked into the repo so CI can compare against them. To update baselines after intentional visual changes, run `npm run screenshot` and `npm run visual:update-baseline` and commit the updated files. The workflow runs on push and pull requests and will upload artifacts if visual tests fail.
+This repository includes a visual regression test that captures the homepage at desktop, tablet, and mobile sizes using Puppeteer and compares images with pixelmatch. Baseline images are stored in `__tests__/baseline/` and are checked into the repo so CI can compare against them. To update baselines after intentional visual changes, run `npm run screenshot` and `npm run visual:update-baseline` and commit the updated files. The workflow runs on push and pull requests and will upload artifacts and the homepage mockup for preview.
+
+## How to push & preview
+
+1. Add a remote and push this branch:
+
+   - git remote add origin git@github.com:<your-org-or-username>/<repo>.git
+   - git push -u origin feature/visual-preview
+
+2. Create a pull request (GitHub web UI, or use GitHub CLI):
+
+   - gh pr create --base main --head feature/visual-preview --title "Visual regression & preview setup" --body "Adds visual tests, baselines, homepage mockups, and CI to upload preview artifacts." --draft
+
+3. On the PR, the **Visual regression** workflow will run and upload `artwork/` and `__tests__/baseline/` artifacts (these contain the generated screenshots and diffs).
+
+4. To get a live preview hosted on GitHub Pages after merging to `main`: ensure the repository has Pages enabled; the `pages-deploy` workflow will publish the static `public/` folder automatically.
+
+If you'd like, I can attempt to push and create the PR for you — provide the repository URL or give me push permissions. Otherwise, push & open the PR and I can help review and iterate on comments.
 
 ---
 
