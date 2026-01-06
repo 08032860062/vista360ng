@@ -65,7 +65,16 @@
     // Basic client rendering for home
     async function loadHome() {
       const res = await fetch('/api/tours');
-      const list = res.ok ? await res.json() : [];
+      let list = res.ok ? await res.json() : [];
+
+      // fallback sample tours for preview when API data is missing
+      const fallbackTours = [
+        { id: 'maitama-castle', title: 'Maitama Castle — Abuja', category: 'Luxury Estates', city: 'Maitama', price: '₦12,000,000,000', views: 324000, thumbnail: '/images/maitama.svg', kuulaUrl: 'https://kuula.co/share/collection/1', duration: '12:34' },
+        { id: 'kado-estate', title: 'Kado Estate — Abuja', category: 'Luxury Estates', city: 'Kado', price: '₦850,000,000', views: 84000, thumbnail: '/images/kado.svg', kuulaUrl: 'https://kuula.co/share/collection/2', duration: '9:18' },
+        { id: 'sheritti-land', title: 'Sheritti Land — Abuja', category: 'Land & Development', city: 'Sheritti', price: '₦650,000,000', views: 32000, thumbnail: '/images/default-thumb.svg', kuulaUrl: 'https://kuula.co/share/collection/3', duration: '8:00' }
+      ];
+
+      if (!list || !list.length) list = fallbackTours;
 
       const grid = document.getElementById('grid');
       const pills = document.getElementById('pills');
