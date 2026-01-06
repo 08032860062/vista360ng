@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Vista360 NG – Tour</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo">Vista360 NG</div>
+    <a href="/" class="link">← Back to Marketplace</a>
+    <a href="/admin" class="link" style="margin-left:12px">Admin</a>
+  </header>
+
+  <main class="container">
+    <div id="tour-info"></div>
+    <div id="tour-embed-wrapper" class="embed-wrapper"></div>
+
+    <section class="cta-row">
+      <a class="btn" id="cta-inspection" href="#">Schedule Inspection</a>
+      <a class="btn secondary" href="/">See More Abuja Properties</a>
+    </section>
+  </main>
+
+  <script>
+    async function loadTour() {
+      const pathParts = window.location.pathname.split('/');
+      const id = pathParts[pathParts.length - 1];
+      const res = await fetch('/api/tours/' + id);
+      if (!res.ok) {
+        document.getElementById('tour-info').innerHTML = '<p>Tour not found.</p>';
+        return;
+      }
+      const tour = await res.json();
+
+      document.getElementById('tour-info').innerHTML = `
+        <h1>${tour.title}</h1>
+        <p class="price">${tour.price}</p>
+      `;
+
+      document.getElementById('tour-embed-wrapper').innerHTML = `
+        <iframe 
+          src="${tour.kuulaUrl}?vr=0&autoload=1&hide_share=1&hide_info=1" 
+          allowfullscreen 
+          frameborder="0"
+          scrolling="no"
+          class="tour-iframe"></iframe>
+      `;
+
+      // fetch configured whatsapp contact
+      try {
+        const cfg = await (await fetch('/api/config')).json();
+        const wa = cfg.whatsapp || '234XXXXXXXXXX';
+        document.getElementById('cta-inspection').href =
+          'https://wa.me/' + wa + '?text=' +
+          encodeURIComponent('Hi Vista360, I want to inspect: ' + tour.title);
+      } catch (e) {
+        document.getElementById('cta-inspection').href =
+          'https://wa.me/234XXXXXXXXXX?text=' +
+          encodeURIComponent('Hi Vista360, I want to inspect: ' + tour.title);
+      }
+    }
+
+    loadTour();
+  </script>
+</body>
+</html>
