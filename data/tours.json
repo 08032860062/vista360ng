@@ -1,5 +1,14 @@
 [
   {
+    "id": "asokoro-estate",
+    "title": "Asokoro Estate – Abuja",
+    "city": "Abuja",
+    "category": "Luxury Estate",
+    "price": "",
+    "views": 0,
+    "kuulaUrl": "https://kuula.co/post/asokoro-estate"
+  },
+  {
     "id": "maitama-castle",
     "title": "Maitama Castle – Abuja",
     "city": "Abuja",
@@ -61,5 +70,14 @@
     "price": "",
     "views": 0,
     "kuulaUrl": "https://kuula.co/post/t-1767661504442"
+  },
+  {
+    "id": "t-1774448665048",
+    "title": "T1",
+    "city": "",
+    "category": "",
+    "price": "",
+    "views": 0,
+    "kuulaUrl": "https://kuula.co/post/t-1774448665048"
   }
 ]
