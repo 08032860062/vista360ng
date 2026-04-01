@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360° Product Photography Services - Vista360NG</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .service-hero {
+            background: linear-gradient(135deg, #0EA5E9 0%, #1A1A1A 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .service-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .service-hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .benefit-card {
+            background: #F3F4F6;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #0EA5E9;
+        }
+        .benefit-card h3 {
+            color: #1A1A1A;
+            margin-bottom: 15px;
+        }
+        .benefit-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+        .pricing-section {
+            background: #F3F4F6;
+            padding: 60px 20px;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .pricing-card {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            border: 2px solid #E5E7EB;
+            text-align: center;
+        }
+        .pricing-card.featured {
+            border: 2px solid #0EA5E9;
+            transform: scale(1.05);
+        }
+        .pricing-card h3 {
+            color: #1A1A1A;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        .price {
+            font-size: 36px;
+            color: #0EA5E9;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .pricing-card ul {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .pricing-card li {
+            padding: 10px 0;
+            border-bottom: 1px solid #E5E7EB;
+            color: #555;
+        }
+        .pricing-card li:before {
+            content: "✓ ";
+            color: #0EA5E9;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: #0EA5E9;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 20px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .cta-button:hover {
+            background: #0284C7;
+        }
+        .process-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .step {
+            text-align: center;
+        }
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: #0EA5E9;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+        .step h4 {
+            color: #1A1A1A;
+            margin-bottom: 10px;
+        }
+        .step p {
+            color: #555;
+            line-height: 1.6;
+        }
+        .portfolio-preview {
+            padding: 60px 20px;
+            background: #F3F4F6;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .portfolio-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .portfolio-info {
+            padding: 15px;
+        }
+        .portfolio-info h4 {
+            color: #1A1A1A;
+            margin-bottom: 5px;
+        }
+        .portfolio-info p {
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="nav-content">
+            <a href="/" class="logo">Vista360NG</a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/product-photography.html" class="active">Services</a>
+                <a href="/portfolio.html">Portfolio</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="service-hero">
+        <h1>360° Product Photography Services</h1>
+        <p>Transform your products into immersive 360° experiences that drive conversions and build customer trust</p>
+        <a href="/contact.html" class="cta-button">Get Started Today</a>
+    </section>
+
+    <section class="benefits-grid">
+        <div class="benefit-card">
+            <h3>📈 Increase Conversions</h3>
+            <p>360° product views increase conversion rates by up to 27% and reduce cart abandonment by 40%</p>
+        </div>
+        <div class="benefit-card">
+            <h3>📉 Reduce Returns</h3>
+            <p>Customers who view products in 360° are 40% less likely to return items due to unmet expectations</p>
+        </div>
+        <div class="benefit-card">
+            <h3>⭐ Build Trust</h3>
+            <p>92% of customers report increased confidence in purchases when they can view products from all angles</p>
+        </div>
+        <div class="benefit-card">
+            <h3>📱 Mobile Optimized</h3>
+            <p>All 360° viewers are fully responsive and optimized for mobile devices (82% of e-commerce traffic)</p>
+        </div>
+        <div class="benefit-card">
+            <h3>🚀 Fast Delivery</h3>
+            <p>24-48 hour turnaround on standard orders, with rush options available for urgent projects</p>
+        </div>
+        <div class="benefit-card">
+            <h3>💰 Affordable Pricing</h3>
+            <p>Pricing tailored for Nigerian SMEs, with volume discounts and flexible payment options</p>
+        </div>
+    </section>
+
+    <section class="process-section">
+        <h2>Our Process</h2>
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h4>Consultation</h4>
+                <p>We discuss your needs, product specifications, and timeline to create a customized plan</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h4>Photography</h4>
+                <p>Professional 360° capture using Insta360 X5 with optimized lighting and positioning</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h4>Post-Processing</h4>
+                <p>Color correction, stitching, and optimization for web delivery and fast loading</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h4>Delivery</h4>
+                <p>Upload to Vista360 platform, integration with your e-commerce site, and customer training</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-section">
+        <h2>Pricing Packages</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Basic</h3>
+                <p>Perfect for getting started</p>
+                <div class="price">₦50,000</div>
+                <p>per product</p>
+                <ul>
+                    <li>24 frames (360° rotation)</li>
+                    <li>Basic color correction</li>
+                    <li>Web optimization</li>
+                    <li>1 month hosting included</li>
+                    <li>5-7 day turnaround</li>
+                </ul>
+                <a href="/contact.html" class="cta-button">Get Quote</a>
+            </div>
+            <div class="pricing-card featured">
+                <h3>Standard</h3>
+                <p>Most popular choice</p>
+                <div class="price">₦75,000</div>
+                <p>per product</p>
+                <ul>
+                    <li>36 frames (premium rotation)</li>
+                    <li>Advanced color correction</li>
+                    <li>Exposure blending</li>
+                    <li>3 months hosting included</li>
+                    <li>2-3 day turnaround</li>
+                </ul>
+                <a href="/contact.html" class="cta-button">Get Quote</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Premium</h3>
+                <p>For complex products</p>
+                <div class="price">₦120,000</div>
+                <p>per product</p>
+                <ul>
+                    <li>72 frames (ultra-smooth rotation)</li>
+                    <li>Professional retouching</li>
+                    <li>Multi-angle captures</li>
+                    <li>6 months hosting included</li>
+                    <li>24-hour rush option</li>
+                </ul>
+                <a href="/contact.html" class="cta-button">Get Quote</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px; color: #555;">
+            <p><strong>Volume Discounts Available:</strong> 10+ products = 20% off | 50+ products = 30% off</p>
+        </div>
+    </section>
+
+    <section class="portfolio-preview">
+        <h2>Recent Projects</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <img src="https://via.placeholder.com/300x200?text=Electronics" alt="Electronics">
+                <div class="portfolio-info">
+                    <h4>Electronics & Gadgets</h4>
+                    <p>Smartphones, laptops, accessories</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://via.placeholder.com/300x200?text=Fashion" alt="Fashion">
+                <div class="portfolio-info">
+                    <h4>Fashion & Accessories</h4>
+                    <p>Handbags, shoes, jewelry</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://via.placeholder.com/300x200?text=Furniture" alt="Furniture">
+                <div class="portfolio-info">
+                    <h4>Furniture & Home</h4>
+                    <p>Sofas, tables, decor items</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://via.placeholder.com/300x200?text=Automotive" alt="Automotive">
+                <div class="portfolio-info">
+                    <h4>Automotive</h4>
+                    <p>Vehicles, parts, accessories</p>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/portfolio.html" class="cta-button">View Full Portfolio</a>
+        </div>
+    </section>
+
+    <section style="background: #1A1A1A; color: white; padding: 60px 20px; text-align: center;">
+        <h2>Ready to Transform Your Products?</h2>
+        <p style="font-size: 18px; margin: 20px 0; opacity: 0.9;">Let's discuss how 360° product photography can boost your e-commerce business</p>
+        <a href="/contact.html" class="cta-button" style="background: #F59E0B;">Schedule Free Consultation</a>
+    </section>
+
+    <footer style="background: #0A0A0A; color: #999; padding: 40px 20px; text-align: center;">
+        <p>&copy; 2026 Vista360NG. All rights reserved. | <a href="#" style="color: #0EA5E9;">Privacy Policy</a> | <a href="#" style="color: #0EA5E9;">Terms of Service</a></p>
+    </footer>
+</body>
+</html>
